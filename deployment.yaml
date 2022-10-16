@@ -131,7 +131,7 @@ spec:
             - bash
             - -c
             - python manage.py syncdb --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:5000
-          image: arshad1914/pipeline:latest
+          image: nachorebella/pipeline:latest
           name: notejam
           ports:
             - containerPort: 5000
