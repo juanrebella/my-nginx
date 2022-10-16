@@ -1,4 +1,4 @@
-FROM nachorebella/python:v1
+FROM python:latest
 
 RUN mkdir app
 COPY django/notejam app/
