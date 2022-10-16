@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        PROJECT_ID = 'phonic-skyline-364017'
+                PROJECT_ID = 'phonic-skyline-364017'
                 CLUSTER_NAME = 'cluster-two'
                 LOCATION = 'us-central1-c'
                 CREDENTIALS_ID = 'my-project'
@@ -24,16 +24,16 @@ pipeline {
         stage('Push image') {
             steps {
                 script {
-                    withCredentials( \
-                                 [string(credentialsId: 'dockerhub',\
-                                 variable: 'dockerhub')]) {
-                        sh "docker login -u nachorebella -p ${dockerhub}"
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', \
+                                credentialsId: 'dockerhub', \
+                                usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+
+                                sh "docker login -u $USERNAME -p $PASSWORD"
+                         }
+                        app.push("${env.BUILD_ID}")
+                        }      
                     }
-                    app.push("${env.BUILD_ID}")
                  }
-                                 
-            }
-        }
     
         stage('Deploy to K8s') {
             steps{
@@ -48,7 +48,8 @@ pipeline {
                   manifestPattern: 'deployment.yaml', \
                   credentialsId: env.CREDENTIALS_ID, \
                   verifyDeployments: true])
-                }
+                } 
             }
         }    
 }
+
