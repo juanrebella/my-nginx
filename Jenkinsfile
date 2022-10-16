@@ -31,6 +31,7 @@ pipeline {
                                 sh "docker login -u $USERNAME -p $PASSWORD"
                          }
                         app.push("${env.BUILD_ID}")
+			app.push('latest')
                         }      
                     }
                  }
